@@ -1,0 +1,9 @@
+{
+    "id": "ld-select",
+    "name": "下拉多选、单选",
+    "version": "1.0.5",
+    "description": "下拉多选 下拉单选",
+    "keywords": [
+        "select"
+    ]
+}
