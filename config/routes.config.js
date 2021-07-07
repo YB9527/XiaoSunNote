@@ -6,8 +6,7 @@ export default {
 	defaultAuth:true,
 	auths:{
 		requiresAuth:[
-			{name: 'index',label:"点餐",path: '/',},
-			{name: 'my',label:"点餐",path: '/pages/my/my',},
+
 			
 			{name: 'projectList',label:"项目列表",path: '/pages/programLog/projectList',},
 			{name: 'programLogList',label:"编程记录",path: '/pages/programLog/programLogList',},

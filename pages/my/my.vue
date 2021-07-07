@@ -1,6 +1,6 @@
 <template>
 	<view>
-		
+		<!-- <button type="primary" @click="loginOut">退出登录</button> -->
 	</view>
 </template>
 
@@ -12,7 +12,9 @@
 			}
 		},
 		methods: {
-			
+			loginOut(){
+				
+			}
 		}
 	}
 </script>

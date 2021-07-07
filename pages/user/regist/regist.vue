@@ -40,8 +40,9 @@
 		},
 		methods: {
 			async regist(){
+				uni.showLoading();
 				let user = this.user;
-				if(!user.phone|| !user.password||!user.username){
+				if( !user.password||!user.username){
 					uni.showToast({
 						icon:"none",
 						title:"账号或者密码不能为空"
@@ -56,8 +57,23 @@
 					return ;
 				}
 				user.id = this.$Tool.uuid();
-				await userApi.regist(user);
-				this.$mRouter.switchTab("login");
+				user.date =await this.$SysApi.getSystemDateTime();
+				 await userApi.regist(user).then(count=>{
+					 uni.showLoading();
+					 uni.showToast({
+					 	title:"恭喜 "+user.username+" 注册成功"
+					 })
+					 setTimeout(()=>{
+					 	this.$mRouter.navigateTo("login");
+					 },1000)
+				 }).catch(e=>{
+					 uni.showToast({
+						 icon:"none",
+					 	title:"注册失败，账号重复"
+					 })
+					 uni.hideLoading();
+				 });
+
 			}
 		}
 	}

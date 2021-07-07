@@ -30,38 +30,42 @@
 				}
 			}
 		},
-		onLoad() {
+		onLoad(option) {
 			this.autoLogin();
-			
+			console.log("loginoption",option);
 		},
 		methods: {
 			async autoLogin(){
+				
 				setTimeout(()=>{
-					 userApi.getStorageUser().then(async user=>{
+					 userApi.getStorageUser().then(user=>{
 						if(user){
 							this.user = user;
-							await this.login();
+							if(user && user.username && user.password){
+								uni.showLoading({
+									title:"自动登录中..."
+								})
+								this.login();
+							}
 						}
+						uni.hideLoading();
+					}).catch(e=>{
+						uni.hideLoading();
 					})
 				},500);
 				
 			},
 			async login(){
-				uni.showLoading({
-					title:"自动登录中..."
-				})
 				let user = await userApi.login(this.user);
-				console.log(user);
 				if(user){
-					this.$mRouter.switchTab("projectList");
-					uni.hideLoading();
+					
+					this.$mRouter.switchTab("programLog");
 				}else{
 					uni.showToast({
 						title:"账号密码错误",
 						icon:"none"
 					});
 				}
-				uni.hideLoading();
 			},
 			gotoRegist(){
 				this.$mRouter.navigateTo("regist");
