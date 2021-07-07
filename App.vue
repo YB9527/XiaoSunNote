@@ -4,11 +4,13 @@
 		onLaunch: function() {
 			uni.vue = this;
 			this.$mRouter.setVue(this);
-			//this.checkLogin();
-			
-			//console.log('App Launch')
 			uni.vue = this;
+			setTimeout(()=>{
+					this.checkLogin();
+			},300);
+		
 		},
+		
 		onShow: function() {
 			//console.log('App Show')
 		},
@@ -17,20 +19,26 @@
 		},
 		methods:{
 			checkLogin(){
-				
 				//检查当前的网页是否需要登录
 				//var url = window.location.pathname;
 				//var search =  window.location.search;
-				
+				let pages = getCurrentPages();
+				if(pages.length == 0){
+					this.$mRouter.navigateTo("login");
+					return;
+				}
+				//console.log("/"+pages[pages.length-1].route);
+				var url ="/"+pages[pages.length-1].route;
 				let routeMap = this.$mRouter.routeMap;
 				for(let key in routeMap){
+					
 					let route = routeMap[key];
 					if(route.path === url){
-						
 						if(route.requiresAuth && !userApi.token){
 							userApi.storageLogin().then().catch(e=>{
 								this.$mRouter.navigateTo("login");
 							});
+							this.$mRouter.switchTab("programLog");
 						}
 						break;
 					}
@@ -78,5 +86,10 @@
 		margin-top: 20rpx;
 	}
 	
-	
+	.wait{
+		color: #FBBD08;
+	}
+	.finish{
+		color: #0f0;
+	}
 </style>

@@ -1,3 +1,4 @@
+
 /**
  *@des 登录注册相关接口
  *@author hjp1011 21931118@qq.com
@@ -8,21 +9,20 @@
 
 import Api from './api';
 import Tool from '@/common/Tool';
+
+var baseURL = Api.baseURL+"/user";
 var token ="";
 
+var strongeUserKey = "loginUser";
 
-
-
-
-var storageLogin = function(){
+var getStorageUser = function(){
 	return new Promise((resole,reject)=>{
-		let user = {};
 		uni.getStorage({
-			key: 'loginUser',
+			key: strongeUserKey,
 			success(storage){
 				let user = storage.data;
-				if(login(user)){
-					resole();
+				if(user){
+					resole(user);
 				}else{
 					reject();
 				}
@@ -31,29 +31,41 @@ var storageLogin = function(){
 				reject(e);
 			}
 		});
-	})
+	});
+}
+exports.getStorageUser = getStorageUser;
+
+var storageLogin = function(){
+	return getStorageUser().then(user=>{
+		return login(user);
+	});
 }
 exports.storageLogin = storageLogin;
 
 
-var login = function({account,password}){
-	if(account == "yb" && password == "123"){
-		uni.setStorage({
-		    key: 'loginUser',
-		    data: {account,password}
-		});
-		token = "123";
-		return true;
-	}
-	return false;
-	
+var login = function(user){
+	let url =baseURL+"/login";
+	uni.setStorage({
+	    key: 'loginUser',
+	    data: user
+	});
+	return Api.requestGETOneData({url,data:user}).then(user=>{
+		uni.vue.$store.commit("setLoginUser",user);
+		return user;
+	});
 }
 exports.login = login;
+
+var regist = function(user){
+	let url =baseURL+"/add";
+	return Api.requestPOST({url,data:user}) ;
+}
+exports.regist = regist;
 
 var loginOut = function(user){
 	user.password="";
 	uni.setStorage({
-	    key: 'loginUser',
+	    key: strongeUserKey,
 	    data: user
 	});
 	return true;
