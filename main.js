@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App'
 
+import store from './store'
+Vue.prototype.$store = store
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
@@ -14,6 +17,8 @@ Vue.prototype.$Api = Api;
 import sysApi from '@/api/sysApi.js'
 Vue.prototype.$SysApi = sysApi;
 
+import dicApi from '@/api/dicApi.js'
+Vue.prototype.$DicApi = dicApi;
 
 
 import $mRouter from '@/utils/router';
@@ -66,6 +71,7 @@ Vue.filter('minuteCompted',(start,end)=>{
 
 
 const app = new Vue({
+	store,
     ...App
 })
 app.$mount()

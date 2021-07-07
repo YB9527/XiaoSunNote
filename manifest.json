@@ -69,7 +69,7 @@
         "enable" : false
     },
     "h5" : {
-        "title" : "RestaurantBack",
-        "domain" : "餐馆后台"
+        "title" : "小孙笔记",
+        "domain" : "XiaoSunNote"
     }
 }

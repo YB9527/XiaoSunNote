@@ -4,7 +4,7 @@
 		onLaunch: function() {
 			uni.vue = this;
 			this.$mRouter.setVue(this);
-			//this.checkLogin();
+			this.checkLogin();
 			
 			//console.log('App Launch')
 			uni.vue = this;
@@ -17,25 +17,34 @@
 		},
 		methods:{
 			checkLogin(){
-				
 				//检查当前的网页是否需要登录
 				//var url = window.location.pathname;
 				//var search =  window.location.search;
-				
+				let pages = getCurrentPages();
+				if(pages.length == 0){
+					this.$mRouter.navigateTo("login");
+					return;
+				}
+				//console.log("/"+pages[pages.length-1].route);
+				var url ="/"+pages[pages.length-1].route;
 				let routeMap = this.$mRouter.routeMap;
 				for(let key in routeMap){
+					
 					let route = routeMap[key];
 					if(route.path === url){
-						
 						if(route.requiresAuth && !userApi.token){
 							userApi.storageLogin().then().catch(e=>{
 								this.$mRouter.navigateTo("login");
 							});
+							//this.$mRouter.switchTab("projectList");
 						}
 						break;
 					}
 				}
 			}
+					
+					
+			
 		}
 	}
 </script>
@@ -77,6 +86,31 @@
 	.itemmargin{
 		margin-top: 20rpx;
 	}
+	.stop{
+		color: #aaffff;
+	}
+	.wait{
+		color: #FBBD08;
+	}
+	.finish{
+		color: #999999;
+	}
+	.bug{
+		color: #ff007f;
+	}
+	.switch{
+		display: flex;
+		view{
+			text{
+				font-size: $uni-font-size-lg2;
+				font-weight: 600;
+				color: #DD524D;
+			}
+			margin-left: 20rpx;
+			width: 50rpx;
+			text-align: center;
+			height: 50rpx;
 	
-	
+		}
+	}
 </style>
