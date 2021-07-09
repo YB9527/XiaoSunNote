@@ -9,6 +9,8 @@ export default {
 
 			
 			{name: 'projectList',label:"项目列表",path: '/pages/programLog/projectList',},
+			{name: 'projectDeails',label:"项目详情",path: '/pages/programLog/projectDeails',},
+			
 			{name: 'programLogList',label:"编程记录",path: '/pages/programLog/programLogList',},
 			{name: 'programLogDetails',label:"编程记录详情",path: '/pages/programLog/programLogDetails',},
 			

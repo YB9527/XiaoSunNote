@@ -4,11 +4,7 @@ import Tool from '@/common/Tool';
 
 var baseURL = Api.baseURL+"/program";
 
-var findByUserid = function(userid){
-	let url =baseURL+"/findbyuserid?userid="+userid;
-	return Api.requestGET({url});
-}
-exports.findByUserid = findByUserid;
+
 
 
 var findByProjectid = function(projectid){

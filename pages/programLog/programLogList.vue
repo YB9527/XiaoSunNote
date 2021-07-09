@@ -10,7 +10,7 @@
 			:key="item.id"
 			>
 				<view class="item sprow">
-					<view class="row" @click="gotoDetails(item)">
+					<view class="row" @click="gotoDetails(index,item)">
 						<view class="title"><text>{{item.title}}</text></view>
 						<text class="type" :class="item.type" v-if="item.type != 'finish'" >{{item.typevalue}}</text>
 					</view>
@@ -48,6 +48,7 @@
 	export default {
 		data() {
 			return {
+				currentindex:-1,
 				projectid:"",
 				programArray:[],
 				isedit:false,
@@ -65,9 +66,22 @@
 					title:projectname
 				})
 			}
+			this.init();
 		},
 		onShow() {
-			this.init();
+			
+			if(this.currentindex >= 0){
+				if(this.programArray.length <= this.currentindex){
+					//新增情况
+					this.init();
+				}else{
+					//修改情况
+					this.updateIndex(this.currentindex);
+				}
+				
+				
+			}
+			
 		},
 		onPullDownRefresh() {
 			this.init();
@@ -80,6 +94,13 @@
 				}
 				//查出所有的记录
 				this.findAll();
+			},
+			async updateIndex(currentindex){
+				let id = this.programArray[currentindex].id;
+				let program =await programApi.findById(id);
+				if(program){
+					 this.programArray.splice(currentindex,1,program);
+				}
 			},
 			async findAll(){
 				let projectid = this.projectid;
@@ -99,8 +120,10 @@
 			//添加笔记
 			addNote(){
 				this.$mRouter.navigateTo("programLogDetails",{projectid:this.projectid});
+				this.currentindex = this.programArray.length;
 			},
-			gotoDetails(note){
+			gotoDetails(index,note){
+				this.currentindex = index;
 				this.$mRouter.navigateTo("programLogDetails",{id:note.id});
 			},
 			//保存编辑

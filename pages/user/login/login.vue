@@ -32,7 +32,7 @@
 		},
 		onLoad(option) {
 			this.autoLogin();
-			console.log("loginoption",option);
+			//console.log("loginoption",option);
 		},
 		methods: {
 			async autoLogin(){
@@ -42,13 +42,11 @@
 						if(user){
 							this.user = user;
 							if(user && user.username && user.password){
-								uni.showLoading({
-									title:"自动登录中..."
-								})
+								
 								this.login();
 							}
 						}
-						uni.hideLoading();
+					
 					}).catch(e=>{
 						uni.hideLoading();
 					})
@@ -56,16 +54,19 @@
 				
 			},
 			async login(){
+				uni.showLoading({
+					title:"自动登录中..."
+				})
 				let user = await userApi.login(this.user);
 				if(user){
-					
-					this.$mRouter.switchTab("programLog");
+					this.$mRouter.switchTab("projectList");
 				}else{
 					uni.showToast({
 						title:"账号密码错误",
 						icon:"none"
 					});
 				}
+				uni.hideLoading();
 			},
 			gotoRegist(){
 				this.$mRouter.navigateTo("regist");

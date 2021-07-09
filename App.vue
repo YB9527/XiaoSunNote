@@ -4,10 +4,9 @@
 		onLaunch: function() {
 			uni.vue = this;
 			this.$mRouter.setVue(this);
-			this.checkLogin();
-			
-			//console.log('App Launch')
-			uni.vue = this;
+			setTimeout(()=>{
+				this.checkLogin();
+			},500);
 		},
 		onShow: function() {
 			//console.log('App Show')

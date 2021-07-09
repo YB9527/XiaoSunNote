@@ -64,7 +64,7 @@ class Router {
 			uni[navType]({
 				url,
 				fail(e){
-					console.log("error",e,url);
+					console.log("error",e);
 				}
 			})
 		});

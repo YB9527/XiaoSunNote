@@ -1,5 +1,6 @@
 <template>
 	<view class="programlog">
+		
 		<view class="list">
 			<view class="item box" 
 			v-for="item in programArray"
@@ -29,12 +30,15 @@
 	export default {
 		data() {
 			return {
+				
 				user:"",
 				programArray:[],
 			}
 		},
 		onLoad(option) {
-			console.log("programoption",option)
+	
+			
+			
 		},
 		onShow() {
 			

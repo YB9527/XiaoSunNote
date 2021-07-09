@@ -1,41 +1,91 @@
 <template>
 	<view class="projectlist" v-show="show">
+		{{str}}
+		<view class="item" v-if="isedit">
+			<button type="primary" @click="editOk">保存</button>
+		</view>
 		<view class="list">
-			<view class="listitem box" 
+			<view class="listitem box " :class="item.imageurl?'row':''"
 			 v-for="(item,index) in projectlist"
 			 :key="index"
-			 @click="gotoProgramLog(item)">
-				<view class="item sprow">
-					<text class="projectname">{{item.projectname}}</text>
-					<text class="label">NO.{{index+1}}</text>
-				</view>
-				<view class="item">
-					<text class="label">创建日期：</text>
-					<text  class="label">{{item.date}}</text>
-				</view>
-				<view class="item row" v-if="item.count">
-					<text class="label">数量：</text>
-					<text class="label">{{item.count}}</text>
-				</view>
+			 @click="!isedit&& gotoProgramLog(index,item)"
+			 >
+			 <view v-if="item.baseimageurl">
+				<image  class="logimage" :src="item.baseimageurl" mode="aspectFill"></image>
+			 </view>
+			 <view>
+				 <view class="item sprow" >
+				 	<text class="projectname" @click="isedit&&gotoProjectDetails(index,item)">{{item.projectname}}</text>
+				 	
+				 	<text class="label">NO.{{index+1}}</text>
+				 </view>
+				 <view class="item sprow" >
+				 	<view>
+				 		<text class="label">创建日期：</text>
+				 		<text  class="label">{{item.date}}</text>
+				 	</view>
+				 	
+				 	<view class="switch" v-if="isedit">
+				 		<view @click="$Tool.itemMove(projectlist,index,-1)" v-if="index != 0"><text class="cuIcon-fold"> </text></view>
+				 		<view @click="$Tool.itemMove(projectlist,index,+1)" v-if="index != projectlist.length-1"> <text  class="cuIcon-unfold"></text></view>
+				 	</view>
+				 </view>
+				 <view class="item sprow" v-if="item.count">
+				 	<view  class="row">
+				 		<text class="label">数量：</text>
+				 		<text class="label">{{item.count}}</text>
+				 	</view>
+				 </view>
+			 </view>
+				
 			</view>
 		</view>
+		<uni-fab
+			horizontal="right"
+			vertical="bottom"
+			:content="content"
+			@trigger="trigger"
+		></uni-fab>
 	</view>
 </template>
 
 <script>
-	import programApi from '@/api/programApi.js'
+	import projectApi from '@/api/projectApi.js'
 	export default{
 		data(){
 			return{
+				str:"",
 				show:false,
+				currentindex:-1,
 				user:"",
 				projectlist:[],
+				isedit:false,
+				content:[
+					{iconPath:"/static/images/edit.png",text:"编辑"},
+					{iconPath:"/static/images/add.png",text:"添加"},
+				],
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			if(option){
+				let str = JSON.stringify(option);
+				if(str.length>4){
+					this.str = str;
+					//console.log("programoption",str);
+				}
+			}
+			this.init();
 		},
 		onShow() {
-			this.init();
+			if(this.currentindex >= 0 ){
+				if(this.projectlist.length <= this.currentindex){
+					//新增情况
+					this.init();
+				}else{
+					//修改情况
+					this.updateIndex(this.currentindex);
+				}
+			}
 		},
 		onPullDownRefresh() {
 			this.init();
@@ -43,22 +93,84 @@
 		},
 		methods:{
 			async init(){
+				//console.log(1)
 				this.user = this.$store.getters.loginUser;
+				//console.log(2,this.user);
 				if(!this.user){
 					return;
 				}
-				this.show =false;
+				//console.log(2)
+				//this.show =false;
 				//查出所有的记录
 				await this.findAll();
 				this.show =true;
 			},
+			async updateIndex(currentindex){
+				let id = this.projectlist[currentindex].id;
+				let project =await projectApi.findById(id);
+				if(project){
+					 this.projectlist.splice(currentindex,1,project);
+				}
+				this.computedImageUrl();
+			},
+			
+			gotoProjectDetails(index,project){
+				//console.log(2);
+				this.currentindex = index;
+				this.$mRouter.navigateTo("projectDeails",{projectid:project.id});
+			},
+			computedImageUrl(){
+				if(this.projectlist.length > 0){
+					for(let project of this.projectlist){
+						if(project.imageurl){
+							project.baseimageurl = this.$Api.imgpriewurl+project.imageurl;
+						}
+					
+					}
+				}
+				
+			},
 			async findAll(){
 				let user = this.user;
-				this.projectlist =await programApi.findByUserid(user.id);
+				if(this.projectlist.length > 0){
+					this.projectlist.splice(0,this.projectlist.length);
+				}
+				let projectlist =await projectApi.findByUserid(user.id);
+				this.projectlist.push(...projectlist)
+				this.computedImageUrl();
+				//console.log(111,this.projectlist);
 			},
-			gotoProgramLog(project){
+			gotoProgramLog(index,project){
+				//console.log(1);
+				this.currentindex = index;
 				this.$mRouter.navigateTo("programLogList",{projectid:project.id,projectname:project.projectname});
-			}
+			},
+			trigger(item){
+				switch(item.index){
+					case 0:
+						this.isedit = !this.isedit;
+						break;
+					case 1:
+						this.addProject();
+						break;
+				}
+			},
+			addProject(){
+				this.$mRouter.navigateTo("projectDeails");
+				this.currentindex = this.projectlist.length;
+			},
+			//保存编辑
+			async editOk(){
+				let list = this.projectlist;
+				for (var i = 0; i < list.length; i++) {
+					list[i].seq = i;
+				}
+				await  projectApi.update(list);
+				uni.showToast({
+					title:"保存成功"
+				});
+				this.isedit =false;
+			},
 		}
 	}
 </script>
@@ -82,6 +194,12 @@
 		}
 		 .row{
 			 align-items: center;
+		 }
+		 .logimage{
+			 width: 160rpx;
+			 height: 160rpx;
+			 border-radius: 8rpx;
+			 margin-right: 20rpx;
 		 }
 	}
 </style>
