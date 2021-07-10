@@ -2,7 +2,7 @@
 	<view class="container" > 
 	<!-- 操作工具 -->
 	<view class="tool-view" > 
-		<view class="tool" v-if="showTool || showMoreTool">
+		<view class="tool" @click="isedit = true" v-if="true||showTool || showMoreTool">
 			<jinIcon class="single" type="&#xe6f3;" font-size="44rpx" title="插入图片" @click="insertImage"></jinIcon>
 			<jinIcon class="single" type="&#xe6f9;" font-size="44rpx" title="修改文字样式" @click="showMore" :color="showMoreTool ? activeColor : '#666666'"></jinIcon>
 			<jinIcon class="single" type="&#xe6eb;" font-size="44rpx" title="分割线" @click="insertDivider"></jinIcon>
@@ -98,6 +98,7 @@ export default {
 	},
 	data() {
 		return {
+			isedit:false,
 			showTool:false,
 			showMoreTool: false,
 			showBold: false,
@@ -137,6 +138,8 @@ export default {
 		},
 		// 插入图片
 		insertImage() {
+			let self = this;
+			let userid = uni.loginUser.id;
 			uni.chooseImage({
 				count: 9, //默认9
 				sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -147,6 +150,19 @@ export default {
 						title: '正在上传中...'
 					})
 					for (let temp of tempFilePaths) {
+						
+						let imgfile =await self.$Api.uploadFile({filePath:temp, dir:"xiaosunnote/"+uni.loginUser.id+"/project/jin-edit"});
+						imgfile =  self.$Api.imgpriewurl+ imgfile.path.replace(/\\/g,"/");
+						//console.log(imgfile);
+						// 上传完成后处理
+						this.editorCtx.insertImage({
+							src: imgfile,  // 此处需要将图片地址切换成服务器返回的真实图片地址
+							alt: '图片',
+							success: function(e) {}
+						});
+						uni.hideLoading();
+					}
+					/* for (let temp of tempFilePaths) {
 						// 图片上传服务器
 						await uni.uploadFile({
 							url: this.uploadFileUrl,
@@ -164,7 +180,7 @@ export default {
 							},
 							
 						});
-					}
+					} */
 				}
 			});
 		},
@@ -245,10 +261,10 @@ export default {
 		},
 		editBlur() {
 			setTimeout(()=>{
-				if(!this.showMoreTool){
+				if(!this.isedit){
 					this.showTool = false;
 				}
-			},200)
+			},1000)
 			
 		},
 		async getContent(){
@@ -288,6 +304,7 @@ export default {
 		line-height: 160%;
 		font-size: 34rpx;
 		width: calc(100%); 
+		padding: 20rpx;
 		height: auto;
 
 	} 

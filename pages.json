@@ -6,7 +6,16 @@
             {
                 "enablePullDownRefresh": false
             }
-        },
+        }
+		,{
+		    "path" : "pages/user/regist/regist",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "注册",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		} ,
 		{
 		    "path" : "pages/my/my",
 		    "style" :                                                                                    
@@ -14,15 +23,7 @@
 		        "enablePullDownRefresh": false
 		    }
 		}
-        ,{
-            "path" : "pages/user/regist/regist",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "注册",
-                "enablePullDownRefresh": false
-            }
-            
-        } 
+        
 		,{
             "path" : "pages/programLog/projectList",
             "style" :                                                                                    

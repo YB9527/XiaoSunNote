@@ -77,7 +77,7 @@ exports.requestGETOneData =requestGETOneData;
 var uploadFile = function({filePath,dir,dirs}) {
 
 	let url = ip + "/file/upload";
-	console.log(url)
+	//console.log(url)
 	return new Promise((resolve,reject)=>{
 		uni.uploadFile({
 			url: url, //仅为示例，非真实的接口地址

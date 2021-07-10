@@ -16,8 +16,8 @@
 					</view>
 					
 					<view class="switch" v-if="isedit">
-						<view @click="$Tool.itemMove(programArray,index,-1)" v-if="index != 0"><text class="cuIcon-fold"> </text></view>
-						<view @click="$Tool.itemMove(programArray,index,+1)" v-if="index != programArray.length-1"> <text  class="cuIcon-unfold"></text></view>
+						<view @click="itemMove(programArray,item,-1)" v-if="index != 0"><text class="cuIcon-fold"> </text></view>
+						<view @click="itemMove(programArray,item,+1)" v-if="index != programArray.length-1"> <text  class="cuIcon-unfold"></text></view>
 					</view>
 					
 				
@@ -94,6 +94,13 @@
 				}
 				//查出所有的记录
 				this.findAll();
+			},
+			 itemMove(list,item,value){
+				let index = list.indexOf(item);
+				let tem =list[index];
+				let tem2 =list[index+value];
+				list.splice(index,1,tem2);
+				list.splice(index+value,1,tem);
 			},
 			async updateIndex(currentindex){
 				let id = this.programArray[currentindex].id;

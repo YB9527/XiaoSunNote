@@ -13,28 +13,39 @@
 			 <view v-if="item.baseimageurl">
 				<image  class="logimage" :src="item.baseimageurl" mode="aspectFill"></image>
 			 </view>
-			 <view>
+			 <view :class="item.imageurl?'right':''">
 				 <view class="item sprow" >
 				 	<text class="projectname" @click="isedit&&gotoProjectDetails(index,item)">{{item.projectname}}</text>
 				 	
-				 	<text class="label">NO.{{index+1}}</text>
+					<text class="label">NO.{{index+1}}</text>
+					
+				 	<view class="switch" v-if="isedit">
+				 		<view @click="itemMove(projectlist,item,-1)" v-if="index != 0"><text class="cuIcon-fold"> </text></view>
+				 		<view @click="itemMove(projectlist,item,+1)" v-if="index != projectlist.length-1"> <text  class="cuIcon-unfold"></text></view>
+				 	</view>
 				 </view>
 				 <view class="item sprow" >
-				 	<view>
+				 	<!-- <view>
 				 		<text class="label">创建日期：</text>
 				 		<text  class="label">{{item.date}}</text>
-				 	</view>
+				 	</view> -->
 				 	
-				 	<view class="switch" v-if="isedit">
-				 		<view @click="$Tool.itemMove(projectlist,index,-1)" v-if="index != 0"><text class="cuIcon-fold"> </text></view>
-				 		<view @click="$Tool.itemMove(projectlist,index,+1)" v-if="index != projectlist.length-1"> <text  class="cuIcon-unfold"></text></view>
-				 	</view>
+	
 				 </view>
-				 <view class="item sprow" v-if="item.count">
-				 	<view  class="row">
+				 <view class="item row" v-if="item.count" >
+					 <view 
+						style="margin-right: 40rpx;"
+						v-for="type of item.typeArray" 
+						:key="type.type">
+						 <view>
+							 <text class="label">{{type.typevalue}}：</text>
+							 <text :class="type.type">{{type.count}}</text>
+						</view>
+					 </view>
+				 	<!-- <view  class="row">
 				 		<text class="label">数量：</text>
 				 		<text class="label">{{item.count}}</text>
-				 	</view>
+				 	</view> -->
 				 </view>
 			 </view>
 				
@@ -93,6 +104,7 @@
 		},
 		methods:{
 			async init(){
+				this.isedit = false;
 				//console.log(1)
 				this.user = this.$store.getters.loginUser;
 				//console.log(2,this.user);
@@ -104,6 +116,13 @@
 				//查出所有的记录
 				await this.findAll();
 				this.show =true;
+			}, 
+			itemMove(list,item,value){
+				let index = list.indexOf(item);
+				let tem =list[index];
+				let tem2 =list[index+value];
+				list.splice(index,1,tem2);
+				list.splice(index+value,1,tem);
 			},
 			async updateIndex(currentindex){
 				let id = this.projectlist[currentindex].id;
@@ -200,6 +219,9 @@
 			 height: 160rpx;
 			 border-radius: 8rpx;
 			 margin-right: 20rpx;
+		 }
+		 .right{
+			  width: calc(750rpx - 160rpx);
 		 }
 	}
 </style>

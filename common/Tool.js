@@ -327,11 +327,28 @@ var computedAge = function(identityCard, nowDateTime = new Date()) {
 exports.computedAge = computedAge;
 
 //条目移动
-var itemMove = function(list,index,value){
+/* var itemMove = function(list,item,value){
+	 let index = list.indexOf(item);
+	let tem2 =list[index+value];
+	list.splice(index,1,tem2);
+	list.splice(index+value,1,item);
+	
+}
+exports.itemMove = itemMove; */
+
+var itemMove = function(list,item,value){
+	 let index =-1;
+	for (var i = 0; i < list.length; i++) {
+		if(list[i].id = item.id){
+			index = i;
+			break;
+		}
+	}
+	
+	console.log(index,value);
 	let tem =list[index];
 	let tem2 =list[index+value];
 	list.splice(index,1,tem2);
 	list.splice(index+value,1,tem);
-	
 }
 exports.itemMove = itemMove;

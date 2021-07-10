@@ -1,39 +1,45 @@
 <template>
 	<view v-if="show" class="programlogdetails">
-		<view class="row item">
-			<view class="label">
-				 <text>当前状态：</text>
-			</view>
-			<ld-select :list="programstausArray"
-				:class="note.type"
-				class="value"
-				label-key="value" 
-				value-key="key" 
-				placeholder="请选择" v-model="note.type"
-				@change="selectStaus"></ld-select>
-		</view>
-		<view class="row item">
-			<view class="label">
-				<text>标题：</text>
-			</view>
-			<view class="value">
-				<input v-model="note.title"  class="inputborder" type="text" placeholder="请输入内容" />
+		<view>
+			<view  class="content">
+				<view class="row item">
+					<view class="label">
+						 <text>当前状态：</text>
+					</view>
+					<ld-select :list="programstausArray"
+						:class="note.type"
+						class="value"
+						label-key="value" 
+						value-key="key" 
+						placeholder="请选择" v-model="note.type"
+						@change="selectStaus"></ld-select>
+				</view>
+				<view class="row item">
+					<view class="content label">
+						<text>标题：</text>
+					</view>
+					<view class="value">
+						<input v-model="note.title"  class="inputborder" type="text" placeholder="请输入内容" />
+					</view>
+					
+				</view>
 			</view>
 			
-		</view>
-		<view  class="item ">
-			 <view class="label">
-				 <text>内容：</text>
-			 </view>
-			<view class="value content" >
-				<!-- <textarea v-model="note.content"  placeholder="请填写内容"/> -->
-				<jinEdit :html="note.content" ref="jinEdit" placeholder="请输入内容"  uploadFileUrl="/#"></jinEdit> 
+			<view  class="item ">
+				 <view class="content label">
+					 <text>内容：</text>
+				 </view>
+				<view class="value " >
+					<!-- <textarea v-model="note.content"  placeholder="请填写内容"/> -->
+					<jinEdit :html="note.content" ref="jinEdit" placeholder="请输入内容"  uploadFileUrl="/#"></jinEdit> 
+				</view>
 			</view>
-		</view>
-		<view class=" button">
-			 <button v-if="note.id" type="warn" @click="update">编辑</button>
-			 <button v-else type="primary" @click="save">添加</button>
-		</view>
+			</view>
+		
+			<view class=" button">
+				 <button v-if="note.id" type="warn" @click="update">编辑</button>
+				 <button v-else type="primary" @click="save">添加</button>
+			</view>
 		<!-- 添加日志详情 -->
 	</view>
 </template>
@@ -96,7 +102,7 @@
 			async update(){
 				uni.showLoading();
 				await this.saveBase();
-				programApi.update(this.note);
+				await programApi.update(this.note);
 				uni.hideLoading();
 				uni.showToast({
 					title:"编辑成功"
@@ -131,14 +137,23 @@
 </script>
 
 <style lang="scss">
+
+	
 	.programlogdetails{
 		height: 100%;
-		padding: 20rpx 20rpx 60rpx 20rpx;
+		padding-top: 20rpx;
+		.content{
+			padding:  0 20rpx;
+			
+		}
 		background-color: #FFFFFF;
-		
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		.label{
 			width: 140rpx;
 			color: #999999;
+			
 		}
 		.value{
 			width: calc(100% - 150rpx);
@@ -150,15 +165,9 @@
 			margin-bottom: 40rpx;
 			
 		}
-		.content{
-			margin: 20rpx -20rpx 0 -16rpx;
-			width: 100%;
-		}
+		
 		.button{
-			position: absolute;
-			bottom: 10rpx;
-			left: 0;
-			right: 0;
+			width: 750rpx;
 		}
 	}
 </style>

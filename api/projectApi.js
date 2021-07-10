@@ -23,7 +23,7 @@ exports.findById = findById;
 var update =async function(project,filePath){
 	if(filePath){
 		
-		let imgfile =await Api.uploadFile({filePath:filePath, dir:uni.loginUser.id+"/xiaosunnote/project"});
+		let imgfile =await Api.uploadFile({filePath:filePath, dir:"xiaosunnote/"+uni.loginUser.id+"/project"});
 		project.imageurl = imgfile.path.replace(/\\/g,"/");
 	}
 	
@@ -34,7 +34,7 @@ exports.update = update;
 
 var save =async function(project,filePath){
 	if(filePath){
-		let imgfile =await Api.uploadFile({filePath:filePath,dir:uni.loginUser.id+"/xiaosunnote/project"});
+		let imgfile =await Api.uploadFile({filePath:filePath,dir:"xiaosunnote/"+uni.loginUser.id+"/project"});
 		project.imageurl = imgfile.path.replace(/\\/g,"/");
 	}
 	let url =baseURL+"/add";

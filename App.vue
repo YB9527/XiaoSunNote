@@ -9,10 +9,8 @@
 			},500);
 		},
 		onShow: function() {
-			//console.log('App Show')
 		},
 		onHide: function() {
-			//console.log('App Hide')
 		},
 		methods:{
 			checkLogin(){
@@ -99,6 +97,7 @@
 	}
 	.switch{
 		display: flex;
+		margin-left: 20rpx;
 		view{
 			text{
 				font-size: $uni-font-size-lg2;
