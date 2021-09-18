@@ -5,7 +5,7 @@ exports.ip = ip;
 var imgpriewurl  = ip+"/imgpriew/";
 exports.imgpriewurl = imgpriewurl;
 
-exports.baseURL  = ip+"/datawaiter/xiaosunnote";
+exports.baseURL  = ip+"/datawaiter/xsbj/xiaosunnote";
 
 /**
  * 请求数据

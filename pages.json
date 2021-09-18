@@ -32,9 +32,18 @@
                 "enablePullDownRefresh": true
             }
             
-        },
+        }
+		,{
+		    "path" : "pages/fileManager/projectList",
+		    "style" :                                                                                    
+		    {
+				 "navigationBarTitleText": "附件",
+		        "enablePullDownRefresh": true
+		    }
+		    
+		},
 		{
-            "path" : "pages/programLog/projectDeails",
+            "path" : "pages/project/projectDeails",
             "style" :                                                                                    
             {
 				 "navigationBarTitleText": "项目详情",
@@ -103,7 +112,7 @@
 				"text" : "英语学习"
 			},
 			{
-				"pagePath" : "pages/fileManager/fileManager",
+				"pagePath" : "pages/fileManager/projectList",
 				"iconPath" : "static/images/tab_file.png",
 				"selectedIconPath" : "static/images/tab_file.png",
 				"text" : "附件管理"

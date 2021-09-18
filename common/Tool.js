@@ -339,13 +339,13 @@ exports.itemMove = itemMove; */
 var itemMove = function(list,item,value){
 	 let index =-1;
 	for (var i = 0; i < list.length; i++) {
-		if(list[i].id = item.id){
+		if(list[i].id == item.id){
 			index = i;
 			break;
 		}
 	}
 	
-	console.log(index,value);
+	//console.log(index,value);
 	let tem =list[index];
 	let tem2 =list[index+value];
 	list.splice(index,1,tem2);

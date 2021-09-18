@@ -76,7 +76,7 @@
 						note.content = "";
 					}
 				}else{
-					this.note = {type:"",content:"",seq:100,programprojectid:this.projectid};
+					this.note = {type:"",content:"",seq:100,projectid:this.projectid};
 				}
 				this.programstausArray =await this.$DicApi.findProgramstaus();
 				//console.log(this.programstausArray);

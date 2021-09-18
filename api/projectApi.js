@@ -5,11 +5,11 @@ import Tool from '@/common/Tool';
 var baseURL = Api.baseURL+"/project";
 
 
-var findByUserid = function(userid){
-	let url =baseURL+"/findbyuserid?userid="+userid;
+var findByUseridAndType = function(userid,type){
+	let url =baseURL+"/findbyuserid?userid="+userid+"&type="+type;
 	return Api.requestGET({url});
 }
-exports.findByUserid = findByUserid;
+exports.findByUseridAndType = findByUseridAndType;
 
 var findById = function(projectid){
 	let url =baseURL+"/findbyid?id="+projectid;
@@ -24,6 +24,7 @@ var update =async function(project,filePath){
 	if(filePath){
 		
 		let imgfile =await Api.uploadFile({filePath:filePath, dir:"xiaosunnote/"+uni.loginUser.id+"/project"});
+		
 		project.imageurl = imgfile.path.replace(/\\/g,"/");
 	}
 	

@@ -7,17 +7,17 @@
 		<view class="list">
 			<view class="listitem box " :class="item.imageurl?'row':''"
 			 v-for="(item,index) in projectlist"
-			 :key="index"
+			 :key="item.id"
 			 @click="!isedit&& gotoProgramLog(index,item)"
 			 >
-			 <view v-if="item.baseimageurl">
-				<image  class="logimage" :src="item.baseimageurl" mode="aspectFill"></image>
+			 <view v-if="item.baseimageurl" @click="isedit&&gotoProjectDetails(index,item)">
+				<image   class="logimage" :src="item.baseimageurl" mode="aspectFill"></image>
 			 </view>
 			 <view :class="item.imageurl?'right':''">
 				 <view class="item sprow" >
-				 	<text class="projectname" @click="isedit&&gotoProjectDetails(index,item)">{{item.projectname}}</text>
+				 	<text class="projectname" @click="isedit&&gotoProjectDetails(index,item)">{{item.name}}</text>
 				 	
-					<text class="label">NO.{{index+1}}</text>
+					<text class="label" >NO.{{index+1}}</text>
 					
 				 	<view class="switch" v-if="isedit">
 				 		<view @click="itemMove(projectlist,item,-1)" v-if="index != 0"><text class="cuIcon-fold"> </text></view>
@@ -35,8 +35,8 @@
 				 <view class="item row" v-if="item.count" >
 					 <view 
 						style="margin-right: 40rpx;"
-						v-for="type of item.typeArray" 
-						:key="type.type">
+						v-for="(type,index) of item.typeArray" 
+						:key="index">
 						 <view>
 							 <text class="label">{{type.typevalue}}：</text>
 							 <text :class="type.type">{{type.count}}</text>
@@ -71,6 +71,7 @@
 				user:"",
 				projectlist:[],
 				isedit:false,
+				type:"programlog",
 				content:[
 					{iconPath:"/static/images/edit.png",text:"编辑"},
 					{iconPath:"/static/images/add.png",text:"添加"},
@@ -154,7 +155,7 @@
 				if(this.projectlist.length > 0){
 					this.projectlist.splice(0,this.projectlist.length);
 				}
-				let projectlist =await projectApi.findByUserid(user.id);
+				let projectlist =await projectApi.findByUseridAndType(user.id,this.type);
 				this.projectlist.push(...projectlist)
 				this.computedImageUrl();
 				//console.log(111,this.projectlist);
@@ -162,7 +163,7 @@
 			gotoProgramLog(index,project){
 				//console.log(1);
 				this.currentindex = index;
-				this.$mRouter.navigateTo("programLogList",{projectid:project.id,projectname:project.projectname});
+				this.$mRouter.navigateTo("programLogList",{projectid:project.id,projectname:project.name});
 			},
 			trigger(item){
 				switch(item.index){
@@ -175,7 +176,7 @@
 				}
 			},
 			addProject(){
-				this.$mRouter.navigateTo("projectDeails");
+				this.$mRouter.navigateTo("projectDeails",{type:this.type});
 				this.currentindex = this.projectlist.length;
 			},
 			//保存编辑
