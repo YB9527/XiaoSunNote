@@ -156,7 +156,7 @@
 			
 		}
 		.value{
-			width: calc(100% - 150rpx);
+			width: calc(100%);
 			inputborder{
 				width: 100%;
 			}
@@ -166,8 +166,10 @@
 			
 		}
 		
-		.button{
+		button{
 			width: 750rpx;
+			border-radius: 0;
 		}
+		
 	}
 </style>

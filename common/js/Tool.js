@@ -1,10 +1,12 @@
+
+
 //检查是否数据
-var checkIsDouble = function(value) {
+export var checkIsDouble = function(value) {
 	var patrn = /^(-)?\d+(\.\d+)?$/;
 	return !(patrn.exec(value) == null);
 };
 
-function number_format(number, decimals, dec_point, thousands_sep) {
+export function number_format(number, decimals, dec_point, thousands_sep) {
 
 	if (number == 0 || number == 0.00) {
 		return 0;
@@ -41,10 +43,9 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 
-exports.number_format = number_format;
 
 //金额符号
-function moneySymbol(money, bit) {
+export function moneySymbol(money, bit) {
 	if (!money) {
 		return money;
 	}
@@ -60,11 +61,10 @@ function moneySymbol(money, bit) {
 	}
 }
 
-exports.moneySymbol = moneySymbol;
 
 
 //通过属性来分组
-var groupByAttribute = function(array, attribute) {
+export var groupByAttribute = function(array, attribute) {
 	let map = {};
 	if (array) {
 		for (let item of array) {
@@ -81,10 +81,10 @@ var groupByAttribute = function(array, attribute) {
 
 	return map;
 };
-exports.groupByAttribute = groupByAttribute;
+
 
 //通过属性来
-var groupByAttributeSingle = function(array, attribute) {
+export var groupByAttributeSingle = function(array, attribute="id") {
 	let map = {};
 	if (array) {
 		for (let item of array) {
@@ -96,7 +96,7 @@ var groupByAttributeSingle = function(array, attribute) {
 
 	return map;
 };
-exports.groupByAttributeSingle = groupByAttributeSingle;
+
 
 /**
  *文字小数 或者 小数 保留小数位数
@@ -105,7 +105,7 @@ exports.groupByAttributeSingle = groupByAttributeSingle;
  * @param defalut 结果异常时，返回的值
  * @returns {number}
  */
-var toFixed = function(value, bit, defalut) {
+export var toFixed = function(value, bit, defalut) {
 
 
 	if (value) {
@@ -117,15 +117,15 @@ var toFixed = function(value, bit, defalut) {
 	}
 	return defalut ? defalut : 0;
 };
-exports.toFixed = toFixed;
 
 
 
-var sumValue = function(v1, v2, bit) {
+
+export var sumValue = function(v1, v2, bit) {
 	let value = (v1.toFixed(bit)) * 1 + (v2.toFixed(bit)) * 1;
 	return value.toFixed(2) * 1;
 };
-exports.sumValue = sumValue;
+
 
 /**
  * 计算总页数
@@ -133,7 +133,7 @@ exports.sumValue = sumValue;
  * @param pageSigle 每页显示个数
  * @returns {number}
  */
-var computedPageTotal = function(total, pageSigle) {
+export var computedPageTotal = function(total, pageSigle) {
 	if (total <= 0 || pageSigle <= 0) {
 		return 0;
 	}
@@ -143,36 +143,34 @@ var computedPageTotal = function(total, pageSigle) {
 	}
 	return pageCount;
 };
-exports.computedPageTotal = computedPageTotal;
 
-
-var pushArray = function(base, datas) {
+export var pushArray = function(base, datas) {
 	if (datas && datas instanceof Array) {
 		for (let data of datas) {
 			base.push(data);
 		}
 	}
 };
-exports.pushArray = pushArray;
 
 
-var str2Date = function(strTime) {
+
+export var str2Date = function(strTime) {
 	var date = strTime.replace(/-/g, '/');
 	var timestamp = new Date(date).getTime();
 	// 根据毫秒数构建 Date 对象
 	return new Date(timestamp);
 };
-exports.str2Date = str2Date;
 
-var str2DateDay = function(strTime) {
+
+export var str2DateDay = function(strTime) {
 	var date = strTime.substring(0, 10);
 	var timestamp = new Date(date).getTime();
 	// 根据毫秒数构建 Date 对象
 	return new Date(timestamp);
 };
-exports.str2DateDay = str2DateDay;
 
-function dateChange(num = 1, date = false) {
+
+export function dateChange(num = 1, date = false) {
 	if (!date) {
 		date = new Date(); //没有传入值时,默认是当前日期
 		date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
@@ -185,9 +183,8 @@ function dateChange(num = 1, date = false) {
 	var newDate = new Date(parseInt(date) * 1000); //转换为时间
 	return date2Str(newDate);
 }
-exports.dateChange = dateChange;
 
-var date2Str = function(date) {
+export var date2Str = function(date) {
 	if (!(date instanceof Date)) {
 		return "";
 	}
@@ -203,9 +200,9 @@ var date2Str = function(date) {
 	var dateString = year + "-" + month + "-" + day;
 	return dateString;
 };
-exports.date2Str = date2Str;
 
-var dateTime2Str = function(date) {
+
+export var dateTime2Str = function(date) {
 	if (!(date instanceof Date)) {
 		return "";
 	}
@@ -218,9 +215,9 @@ var dateTime2Str = function(date) {
 	var dateString = year + "-" + month + "-" + day + " " + HH + ":" + mm + ":" + ss;
 	return dateString;
 };
-exports.dateTime2Str = dateTime2Str;
 
-var uuid = function() {
+
+export var uuid = function() {
 	var s = [];
 	var hexDigits = "0123456789abcdef";
 	for (var i = 0; i < 36; i++) {
@@ -234,17 +231,15 @@ var uuid = function() {
 
 	return uuid;
 }
-exports.uuid = uuid;
 
-var copy = function(data) {
+export var copy = function(data) {
 	if (data) {
 		return JSON.parse(JSON.stringify(data));
 	}
 }
-exports.copy = copy;
 
 //计算相差的月份
-var computedMonth = function(start, end) {
+export var computedMonth = function(start, end) {
 	var date2Mon;
 	var startDate = start.getDate() + start.getHours() / 24 + start.getMinutes() / 24 / 60;
 	var endDate = end.getDate() + end.getHours() / 24 + end.getMinutes() / 24 / 60;
@@ -255,7 +250,7 @@ var computedMonth = function(start, end) {
 	}
 	return (end.getYear() - start.getYear()) * 12 + end.getMonth() - start.getMonth() + date2Mon;
 }
-exports.computedMonth = computedMonth;
+
 
 
 var checkMonth = function(i) {
@@ -265,7 +260,7 @@ var checkMonth = function(i) {
 	return i;
 }
 
-var addMonth = function(num, start) {
+export var addMonth = function(num, start) {
 	start = str2Date(date2Str(start));
 	let lastDate = start.setMonth(start.getMonth() + num); // 输出日期格式为毫秒形式1551398400000
 
@@ -275,25 +270,25 @@ var addMonth = function(num, start) {
 	lastDate = lastYear + '-' + lastMonth;
 	return lastDate;
 }
-exports.addMonth = addMonth;
 
-var computedSex = function(zjhm) {
+
+export var computedSex = function(zjhm) {
 	let bm = zjhm && zjhm.length === 18 ? zjhm.substring(16, 17) : '';
 	let sex = bm && bm % 2 === 0 ? "女" : "男";
 	return sex;
 }
-exports.computedSex = computedSex;
 
-var computedAgeToKey = function(zjhm) {
+
+export var computedAgeToKey = function(zjhm) {
 	let bm = zjhm && zjhm.length === 18 ? zjhm.substring(16, 17) : '';
 	let sex = bm && bm % 2 === 0 ? 2 : 1;
 	return sex;
 
 }
-exports.computedAgeToKey = computedAgeToKey;
 
 
-var computedAge = function(identityCard, nowDateTime = new Date()) {
+
+export var computedAge = function(identityCard, nowDateTime = new Date()) {
 	var len = (identityCard + "").length;
 	if (len == 0) {
 		return "";
@@ -324,7 +319,7 @@ var computedAge = function(identityCard, nowDateTime = new Date()) {
 	}
 	return isNaN(age) ? "" : age;
 }
-exports.computedAge = computedAge;
+
 
 //条目移动
 /* var itemMove = function(list,item,value){
@@ -332,11 +327,11 @@ exports.computedAge = computedAge;
 	let tem2 =list[index+value];
 	list.splice(index,1,tem2);
 	list.splice(index+value,1,item);
-	
+
 }
 exports.itemMove = itemMove; */
 
-var itemMove = function(list,item,value){
+export var itemMove = function(list,item,value){
 	 let index =-1;
 	for (var i = 0; i < list.length; i++) {
 		if(list[i].id == item.id){
@@ -344,11 +339,167 @@ var itemMove = function(list,item,value){
 			break;
 		}
 	}
-	
-	//console.log(index,value);
 	let tem =list[index];
 	let tem2 =list[index+value];
 	list.splice(index,1,tem2);
 	list.splice(index+value,1,tem);
 }
-exports.itemMove = itemMove;
+
+export var arrayReplace = function(srcArray,descArray){
+    if(srcArray&&srcArray.length >0 ){
+      srcArray.splice(0,srcArray.length);
+    }
+    if(descArray && descArray.length >0){
+      srcArray.push(...descArray);
+    }
+};
+
+/**
+ * 替换数组中的对象
+ * @param array
+ * @param po
+ * @param key
+ * @returns {boolean}
+ */
+export var replaceModel= function (array,po,key="id") {
+
+  if(array && array.length >0 && po  && po[key] ){
+    let id = po[key];
+    for (let i = 0; i < array.length; i++) {
+      let item = array[i];
+      if(item[key] === id){
+        array.splice(i,1,po);
+        return true;
+      }
+    }
+  }else{
+    return false;
+  }
+};
+
+export var arrayDeleteModel =  function  (array,data,key='id') {
+
+  for (var i = 0; i < array.length; i++) {
+    if(array[i][key] === data[key]){
+      array.splice(i,1);
+      break;
+    }
+  }
+}
+
+export var arrayToDataLevel= function (parent, array,pid="pid") {
+
+    if(parent && array){
+      for (let data of array){
+
+        if( parent.id === data[pid]){
+          let children = parent.children;
+          if(!children){
+            parent.children = [];
+            children = parent.children;
+          }
+          children.push(data);
+          data.parent =copy(parent);
+
+          arrayToDataLevel(data,array);
+        }
+      }
+    }
+
+};
+
+/**
+ * 对象属性分解成数组
+ * @param {Object} map
+ */
+export var mapToArray = function (map,key="key",value="value") {
+	if(map){
+		let array = [];
+		for(let k in map){
+			let item = {};
+			item[key] = k;
+			item[value] = map[k];
+			array.push(item);
+		}
+		return array;
+	}
+
+};
+
+export var arrayLevelExpand = function (array,childrenkey="children") {
+	let result = [];
+	
+	var wh =  function(result,array,childrenkey){
+		if(array && array instanceof Array){
+			array.forEach(item=>{
+				 result.push(item);
+				 wh(result,item[childrenkey],childrenkey);
+			})
+		}
+	}
+	wh(result,array,childrenkey);
+	return result;
+};
+
+
+
+/**
+ * replaceattr 如果是数组那么就有替换顺序
+ */
+export var replaceAttr =  function(array,replaceattr,childrenkey,isdeletekey=true) {
+
+	if(array && array instanceof Array){
+		for(let item of array){
+			if(replaceattr instanceof Array){
+				for (var i = 0; i < replaceattr.length; i+=2) {
+					let before = replaceattr[i];
+					let after = replaceattr[i+1];
+					item[after] = item[before];
+					if(isdeletekey){
+						delete  item[before];
+					}
+				}
+			}else{
+				for(let key in replaceattr){
+					let keyreplace = replaceattr[key];
+					if(keyreplace){
+						item[keyreplace] = item[key];
+						if(isdeletekey){
+							delete item[key];
+						}
+					}
+				}
+			}
+			
+			//递归替换下一级数据
+			if(childrenkey){
+				let children = item[childrenkey];
+				replaceAttr(children,replaceattr,childrenkey,isdeletekey);
+			}
+		}
+	}
+}
+export var padRight = function(str,len,symbol="*"){
+	if(str){
+		while(str.length < len){
+			str += symbol; 
+		}
+		return str;
+	}
+}
+
+export var parse = function(str){
+	if(str){
+		
+		
+		let index = str.indexOf("/*");
+
+		while(index !== -1){
+			let end = str.indexOf("*/",index);
+			str = str.substring(0,index) + str.substring(end+2);
+			index = str.indexOf("/*");
+		}
+		
+		return JSON.parse(str);
+	}
+}

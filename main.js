@@ -8,8 +8,11 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
-import Tool from '@/common/Tool.js'
+import * as Tool from '@/common/js/Tool.js'
 Vue.prototype.$Tool = Tool;
+
+import * as UniTool from '@/common/js/UniTool.js'
+Vue.prototype.$UniTool = UniTool;
 
 import Api from '@/api/api.js'
 Vue.prototype.$Api = Api;

@@ -1,5 +1,5 @@
-//var ip  = "http://192.168.3.3:3333";
-var ip  = "https://sunliying.shop:11443";
+var ip  = "http://192.168.3.107:3333";
+//var ip  = "https://sunliying.shop:11443";
 exports.ip = ip; 
 
 var imgpriewurl  = ip+"/imgpriew/";

@@ -105,12 +105,12 @@
 			},
 			
 			
-			{
+			/* {
 				"pagePath" : "pages/englishLearn/englishLearn",
 				"iconPath" : "static/images/tab_log.png",
 				"selectedIconPath" : "static/images/tab_log.png",
 				"text" : "英语学习"
-			},
+			}, */
 			{
 				"pagePath" : "pages/fileManager/projectList",
 				"iconPath" : "static/images/tab_file.png",

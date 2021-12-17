@@ -47,6 +47,7 @@
 </script>
 
 <style lang="scss">
+	@import  '/common/css/glob.css';
 	// 导入colorUI
 	@import '/static/css/colorui/main.css';
 	@import '/static/css/colorui/icon.css';

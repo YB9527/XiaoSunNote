@@ -24,7 +24,6 @@ var update =async function(project,filePath){
 	if(filePath){
 		
 		let imgfile =await Api.uploadFile({filePath:filePath, dir:"xiaosunnote/"+uni.loginUser.id+"/project"});
-		
 		project.imageurl = imgfile.path.replace(/\\/g,"/");
 	}
 	

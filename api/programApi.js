@@ -1,6 +1,6 @@
 
 import Api from './api';
-import Tool from '@/common/Tool';
+import * as Tool from '@/common/js/Tool.js'
 
 var baseURL = Api.baseURL+"/program";
 
